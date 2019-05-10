@@ -19,8 +19,6 @@ namespace WebApplication1.Pages
     using Microsoft.AspNetCore.Components.Routing;
     using Microsoft.JSInterop;
     using WebApplication1.Shared;
-    using WebApplication1.Components.TaskList;
-    using WebApplication1.Components;
     using WebApplication1.Data;
     [Microsoft.AspNetCore.Components.Layouts.LayoutAttribute(typeof(MainLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]

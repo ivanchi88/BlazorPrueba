@@ -43,4 +43,7 @@ D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\WebApp
 D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\WebApplication1.dll
 D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\WebApplication1.pdb
 D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\WebApplication1.csproj.CopyComplete
-D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\Razor\Components\TaskList\TaskList.cshtml.g.cs
+D:\Programacion\Blazor\Test1\Back\WebApplication1\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Blazor.dll
+D:\Programacion\Blazor\Test1\Back\WebApplication1\bin\Debug\netcoreapp3.0\Mono.WebAssembly.Interop.dll
+D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\RazorDeclaration\Components\Tasks\TaskList.razor.g.cs
+D:\Programacion\Blazor\Test1\Back\WebApplication1\obj\Debug\netcoreapp3.0\Razor\Components\Tasks\TaskList.razor.g.cs

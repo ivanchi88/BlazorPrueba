@@ -1,0 +1,27 @@
+@page "/tasklist"
+
+@layout MainLayout
+
+
+@inherits TaskListBase
+
+<div>
+    <div class="row">
+    <input class="col-sm-5" type="text" bind="@currentTask"  />
+    <button class="col-sm-3" onclick="@addTask" >Add Task</button>
+    </div>
+
+    <p> 
+        <h2>Current task:</h2>
+        @currentTask
+    </p>
+
+    <ul>
+        @if (tasks != null) {
+            @foreach (var task in tasks)
+            {
+                <li>@task</li>
+            }
+        }
+    </ul> 
+</div>

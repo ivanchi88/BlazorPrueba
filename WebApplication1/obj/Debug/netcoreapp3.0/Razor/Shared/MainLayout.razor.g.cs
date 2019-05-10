@@ -15,8 +15,6 @@ namespace WebApplication1.Shared
     using Microsoft.AspNetCore.Components.Routing;
     using Microsoft.JSInterop;
     using WebApplication1.Shared;
-    using WebApplication1.Components.TaskList;
-    using WebApplication1.Components;
     public class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
