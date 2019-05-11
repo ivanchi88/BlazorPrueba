@@ -1,26 +1,31 @@
-@page "/tasklist"
-
+@page "/tasklist" 
 @layout MainLayout
 
 
 @inherits TaskListBase
 
-<div>
+<div class="container-fluid">
     <div class="row">
-    <input class="col-sm-5" type="text" bind="@currentTask"  />
-    <button class="col-sm-3" onclick="@addTask" >Add Task</button>
+        <input class="col-sm-5" type="text" bind-value-oninput="@currentTask" onkeypress="@MaybeEnter"/>
+        <button class="col-sm-1 ml-5" class="btn btn-primary" onclick="@AddTask">Add Task</button>
     </div>
 
     <p> 
         <h2>Current task:</h2>
-        @currentTask
+        <p> @currentTask </p>
     </p>
 
-    <ul>
+    <ul class="list-group col-sm-6">
         @if (tasks != null) {
-            @foreach (var task in tasks)
+            int i = 1;
+            foreach (var task in tasks)
             {
-                <li>@task</li>
+                <li class="list-group-item"> 
+                    <span>@i .</span>
+                    <span  > @task.text </span>
+                    <button onclick="@(()=> RemoveItem(task))">Remove</button>
+                </li>  
+                i++;
             }
         }
     </ul> 
