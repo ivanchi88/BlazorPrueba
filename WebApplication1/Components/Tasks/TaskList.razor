@@ -1,6 +1,6 @@
 @page "/tasklist" 
 @layout MainLayout
-
+@using WebApplication1.Data.Tasks
 
 @inherits TaskListBase
 
@@ -15,18 +15,43 @@
         <p> @currentTask </p>
     </p>
 
-    <ul class="list-group col-sm-6">
-        @if (tasks != null) {
-            int i = 1;
-            foreach (var task in tasks)
-            {
-                <li class="list-group-item"> 
-                    <span>@i .</span>
-                    <span  > @task.text </span>
-                    <button onclick="@(()=> RemoveItem(task))">Remove</button>
-                </li>  
-                i++;
-            }
-        }
-    </ul> 
+    <div class ="row">
+        <div class ="col-sm-6">
+            <p>Active</p>
+            <ul class="list-group">
+                @if (tasks != null) {
+                    int i = 1;
+                    foreach (var task in tasks.Where(x => x.status == TaskStatusEnum.Active))
+                    {
+                        <li class="list-group-item"> 
+                            <span>@i .</span>
+                            <span  > @task.text </span>
+                            <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Done))"> Done </button>
+                            <button onclick="@(()=> RemoveItem(task))">Remove</button>
+
+                        </li>  
+                        i++;
+                    }
+                }
+            </ul> 
+        </div>
+        <div class ="col-sm-6">
+            <p> Done </p>
+            <ul class="list-group">
+                @if (tasks != null) {
+                    int i = 1;
+                    foreach (var task in tasks.Where(x => x.status == TaskStatusEnum.Done))
+                    {
+                        <li class="list-group-item"> 
+                            <span>@i .</span>
+                            <span  > @task.text </span>
+                            <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Active))"> Not done yet </button>
+                            <button onclick="@(()=> RemoveItem(task))">Remove</button>
+                        </li>  
+                        i++;
+                    }
+                }
+            </ul> 
+        </div>
+    </div>
 </div>
