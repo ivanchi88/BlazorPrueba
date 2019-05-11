@@ -12,6 +12,8 @@ namespace WebApplication1.Components.Tasks {
         protected string currentTask {get; set;} 
 
         protected void AddTask () {
+            if (string.IsNullOrWhiteSpace(currentTask)) return;
+
             if (tasks == null) 
             {
                 tasks = new List<TaskDto>();
