@@ -17,22 +17,25 @@
     <div class ="row">
         <div class ="col-sm-6">
             <p>Active</p>
-            <ul class="list-group">
+            <div id="list">
                 @if (tasks != null) {
                     int i = 1;
                     foreach (var task in tasks.Where(x => x.status == TaskStatusEnum.Active))
                     {
-                        <li class="list-group-item"> 
-                            <span>@i .</span>
-                            <span  > @task.text </span>
-                            <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Done))"> Done </button>
-                            <button onclick="@(()=> RemoveItem(task))">Remove</button>
-
-                        </li>  
+                        <div class="row mb-sm-2"> 
+                            <div class ="col-sm-8">
+                                <span> @i .</span>
+                                <span> @task.text </span>
+                            </div>
+                            <div class ="col-sm">
+                                <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Done))"> Done </button>
+                                <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>
+                            </div>
+                        </div>  
                         i++;
                     }
                 }
-            </ul> 
+            </div> 
         </div>
         <div class ="col-sm-6">
             <p> Done </p>
@@ -45,7 +48,7 @@
                             <span>@i .</span>
                             <span  > @task.text </span>
                             <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Active))"> Not done yet </button>
-                            <button onclick="@(()=> RemoveItem(task))">Remove</button>
+                            <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>
                         </li>  
                         i++;
                     }

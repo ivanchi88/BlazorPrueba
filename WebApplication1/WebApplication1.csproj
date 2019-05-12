@@ -4,7 +4,8 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Watch Include="**\*.cshtml;**\*.razor" />
+    <Watch Include="**\*.cshtml;**\*.razor"/>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01"/>
+    <PackageReference Include="MongoDB.Driver" Version="2.8.0"/>
   </ItemGroup>
 </Project>

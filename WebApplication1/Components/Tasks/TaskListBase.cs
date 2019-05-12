@@ -36,9 +36,5 @@ namespace WebApplication1.Components.Tasks {
         protected void ChangeTaskStatus(TaskDto task, TaskStatusEnum status) {
             task.status = status;
         }
-
-        protected void RemoveItem(TaskDto task) {
-            tasks.Remove(task);
-        }
     }
 }
