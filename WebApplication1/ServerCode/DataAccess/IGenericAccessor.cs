@@ -1,11 +1,11 @@
 using System.Collections.Generic; 
 using System;
 namespace WebApplication1.ServerCode.DataAccess {
-    public interface IDataAccessor {
+    public interface IGenericDataAccessor {
         
         void connect();
 
-        void insert<T>(T data);
+        void insert<T>(SavedDataDto<T> data);
 
         T find <T> (Guid id);
 

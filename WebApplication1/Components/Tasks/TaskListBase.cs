@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using WebApplication1.Data.Tasks;
+using WebApplication1.Data.Tasks; 
 using WebApplication1.ServerCode.DataAccess;
 
 
@@ -13,7 +13,7 @@ namespace WebApplication1.Components.Tasks {
         protected string currentTask {get; set;} 
 
         [Inject]
-        protected IDataAccessor dataAccessor {get; set;}
+        protected IGenericDataAccessor dataAccessor {get; set;}
 
         protected override void OnInit()
         {
@@ -34,7 +34,9 @@ namespace WebApplication1.Components.Tasks {
                 text = currentTask
             };
             tasks.Add(task);
-            dataAccessor.insert(task);
+            dataAccessor.insert(new SavedDataDto<TaskDto> {
+                data = task
+            });
             currentTask = "";
         }
 

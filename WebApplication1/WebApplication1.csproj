@@ -6,8 +6,10 @@
   <ItemGroup>
     <Watch Include="**\*.cshtml;**\*.razor"/>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01"/>
-    <PackageReference Include="MongoDB.Driver" Version="2.8.0"/>
-    <PackageReference Include="MongoDB.Bson" Version="2.8.0"/>
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.8.0"/>
+    <PackageReference Include="MongoDB.Driver" Version="2.7.3"/>
+    <PackageReference Include="MongoDB.Bson" Version="2.7.3"/>
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.7.3"/>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
+    <PackageReference Include="MySql.Data" Version="8.0.16"/>
   </ItemGroup>
 </Project>

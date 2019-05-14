@@ -22,7 +22,7 @@ namespace WebApplication1
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<IDataAccessor, MongoDataAccessor>();
+            services.AddSingleton<IGenericDataAccessor, MySqlDataAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
