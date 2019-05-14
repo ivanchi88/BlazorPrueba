@@ -1,44 +1,48 @@
 using System.Collections.Generic;
 using System;
 using MongoDB.Driver;
+using MongoDB.Driver.Core;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using WebApplication1.Data.Tasks;
+using System.Runtime.Serialization.Formatters;
 
 namespace WebApplication1.ServerCode.DataAccess {
-    public class MongoDataAccessor {
+    public class MongoDataAccessor: IDataAccessor {
         
         private MongoClient client;
-        private MongoDatabase db;
-        private IDictionary<string, MongoCollection> collections;
+        private IMongoDatabase db;
+        private IDictionary<string, IMongoCollection<BsonDocument>>collections;
 
         private string allItemsCollection = "allItems";
 
         public void connect() {
-            client = new MongoClient("localhost:mongodb://localhost:27017");
+            client = new MongoClient("mongodb://localhost:27017");
             db = client.GetDatabase("default");
-            collections = new Dictionary<string, MongoCollection>();
+            collections = new Dictionary<string, IMongoCollection<BsonDocument>>();
         }
 
         public void insert<T>(T data){
- 
-            if (!BsonClassMap.IsClassMapRegistered(typeof(MyClass))) {
+            Type dataType = data.GetType(); 
+            
+            Console.WriteLine(dataType.ToString());
+
+             if (!BsonClassMap.IsClassMapRegistered(dataType)) {
                 BsonClassMap.RegisterClassMap<T>();
             } 
 
-            MopngoCollection cachedCollection;
-            if (!db.TryGetValue(allItemsDb, cachedCollection)) {
-                cachedCollection = db.GetCollection<BsonDocument>(allItemsCollection);
-                db.Add(allItemsCollection, cachedCollection);
+            var typeName = typeof(T).ToString();
+
+            IMongoCollection<BsonDocument> cachedCollection;
+
+            if (!collections.TryGetValue(typeName, out cachedCollection) || cachedCollection == null) {
+                cachedCollection = db.GetCollection<BsonDocument>(typeName);
+                collections.TryAdd(typeName, cachedCollection);
             }
 
-            MemoryStream ms = new MemoryStream();
-            using (BsonWriter writer = new BsonWriter(ms))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-  
-                serializer.Serialize(writer, e);
-             
-                cachedCollection.insertOne()
-            }
+            var serialized = data.ToBsonDocument();
+            cachedCollection.InsertOne(serialized);
+
         }
 
         public T find <T> (Guid id){

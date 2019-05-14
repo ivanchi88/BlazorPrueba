@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Data;
+using WebApplication1.ServerCode.DataAccess;
 
 namespace WebApplication1
 {
@@ -21,6 +22,7 @@ namespace WebApplication1
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<IDataAccessor, MongoDataAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
