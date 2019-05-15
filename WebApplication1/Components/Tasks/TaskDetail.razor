@@ -3,8 +3,9 @@
 @using WebApplication1.Data.Tasks
 @inherits TaskDetailBase
 
-<h1> Task: @task.text </h1>
-
+<h1> Task: @task.Text </h1>
+<h2> Created: @task.CreationDate</h2>
+<h3> Updated: @task.LastUpdate</h3>
 <div> 
     <NavLink href="/tasklist">Go Back</NavLink>
 </div>

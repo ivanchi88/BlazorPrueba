@@ -20,12 +20,12 @@
             <div id="list">
                 @if (tasks != null) {
                     int i = 1;
-                    foreach (var task in tasks.Where(x => x.status == TaskStatusEnum.Active))
+                    foreach (var task in tasks.Where(x => x.Status == TaskStatusEnum.Active))
                     {
                         <div class="row mb-sm-2"> 
                             <div class ="col-sm-8">
                                 <span> @i .</span>
-                                <span> @task.text </span>
+                                <span> @task.Text </span>
                             </div>
                             <div class ="col-sm">
                                 <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Done))"> Done </button>
@@ -43,11 +43,11 @@
             <ul class="list-group">
                 @if (tasks != null) {
                     int i = 1;
-                    foreach (var task in tasks.Where(x => x.status == TaskStatusEnum.Done))
+                    foreach (var task in tasks.Where(x => x.Status == TaskStatusEnum.Done))
                     {
                         <li class="list-group-item"> 
                             <span>@i .</span>
-                            <span  > @task.text </span>
+                            <span  > @task.Text </span>
                             <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Active))"> Not done yet </button>
                             <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>
                         </li>  

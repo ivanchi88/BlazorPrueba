@@ -35,9 +35,8 @@ namespace WebApplication1.Components.Tasks {
             }
             var task = new TaskDto {
                 Uid = Guid.NewGuid(),
-                status = TaskStatusEnum.Active,
-                creationDate = DateTime.UtcNow,
-                text = currentTask
+                Status = TaskStatusEnum.Active,
+                Text = currentTask
             };
             tasks.Add(task);
             dataAccessor.insert(task);
@@ -51,7 +50,7 @@ namespace WebApplication1.Components.Tasks {
         } 
 
         protected void ChangeTaskStatus(TaskDto task, TaskStatusEnum status) {
-            task.status = status;
+            task.Status = status;
             dataAccessor.update(task);
         }
     }

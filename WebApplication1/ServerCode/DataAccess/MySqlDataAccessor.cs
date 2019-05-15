@@ -19,6 +19,8 @@ namespace WebApplication1.ServerCode.DataAccess {
         }   
 
         public void insert (SavableData received){
+            received.CreationDate = DateTime.UtcNow;
+            received.LastUpdate = DateTime.UtcNow;
 
             var data = new SavedDataDto<SavableData> {
                 Data = received,
@@ -39,6 +41,8 @@ namespace WebApplication1.ServerCode.DataAccess {
         }
 
         public void update (SavableData received) {
+
+            received.LastUpdate = DateTime.UtcNow;
 
             var data = new SavedDataDto<SavableData> {
                 Data = received,
