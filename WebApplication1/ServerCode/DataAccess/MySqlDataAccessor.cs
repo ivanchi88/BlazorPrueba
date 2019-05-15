@@ -25,8 +25,8 @@ namespace WebApplication1.ServerCode.DataAccess {
             var data = new SavedDataDto<SavableData> {
                 Data = received,
                 Uid = received.Uid,
-                Updated = DateTime.UtcNow,
-                Type = received.GetType()
+                Type = received.GetType(),
+                Updated = DateTime.UtcNow
             };
 
             var serialized = JsonConvert.SerializeObject(data);
@@ -34,6 +34,7 @@ namespace WebApplication1.ServerCode.DataAccess {
             var serializedUid = JsonConvert.SerializeObject(data.Uid);
 
             Console.WriteLine(globalType);
+            
             var query = $"INSERT INTO {defaultTable} (Uid, Type, Data) VALUES ( '{serializedUid}', '{globalType}', '{serialized}');"; 
 
             executeVoidQuery(query);
@@ -47,6 +48,7 @@ namespace WebApplication1.ServerCode.DataAccess {
             var data = new SavedDataDto<SavableData> {
                 Data = received,
                 Uid = received.Uid,
+                Type = received.GetType(),
                 Updated = DateTime.UtcNow,
             };
 
