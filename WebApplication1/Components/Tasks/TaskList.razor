@@ -29,7 +29,8 @@
                             </div>
                             <div class ="col-sm">
                                 <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Done))"> Done </button>
-                                <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>
+                                <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>v
+                                <NavLink href=@{"/tasklist/" + task.id}>Hello Universe</NavLink><br />
                             </div>
                         </div>  
                         i++;

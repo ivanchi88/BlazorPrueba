@@ -1,4 +1,6 @@
-@page "/tasklist/{Task}" 
+@page "/tasklist/{id}" 
 @layout MainLayout
-
+@using WebApplication1.Data.Tasks
 @inherits TaskDetailBase
+
+<h1> Task: @task.text </h1>
