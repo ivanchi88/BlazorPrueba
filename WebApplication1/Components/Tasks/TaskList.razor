@@ -30,7 +30,7 @@
                             <div class ="col-sm">
                                 <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Done))"> Done </button>
                                 <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>
-                                <NavLink href=@{"/tasklist/" + task.id}>Detail </NavLink>
+                                <NavLink href=@{"/tasklist/" + task.Uid}>Detail </NavLink>
                             </div>
                         </div>  
                         i++;

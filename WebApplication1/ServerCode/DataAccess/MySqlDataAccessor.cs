@@ -18,37 +18,40 @@ namespace WebApplication1.ServerCode.DataAccess {
             
         }   
 
-        public void insert <T>(SavedDataDto<T> data){
+        public void insert (SavableData received){
 
-            databaseConnection = new MySqlConnection(connectionString);
-
-            data.Type = typeof(T);
+            var data = new SavedDataDto<SavableData> {
+                Data = received,
+                Uid = received.Uid,
+                Updated = DateTime.UtcNow,
+                Type = received.GetType()
+            };
 
             var serialized = JsonConvert.SerializeObject(data);
-            var globalType = JsonConvert.SerializeObject(typeof(T)); 
+            var globalType = JsonConvert.SerializeObject(received.GetType()); 
             var serializedUid = JsonConvert.SerializeObject(data.Uid);
 
+            Console.WriteLine(globalType);
             var query = $"INSERT INTO {defaultTable} (Uid, Type, Data) VALUES ( '{serializedUid}', '{globalType}', '{serialized}');"; 
 
-            MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
-            commandDatabase.CommandTimeout = 60;
-            
-            try
-            {
-                databaseConnection.Open();
-                MySqlDataReader myReader = commandDatabase.ExecuteReader();
-            }
-            catch (Exception ex)
-            {
-                // Mostrar cualquier error
-                Console.WriteLine(ex.Message);
-            } finally {
-                databaseConnection.Close();
-            }
+            executeVoidQuery(query);
+           
         }
 
-        public SavedDataDto<T> actualize <T> () {
-            return null;
+        public void update (SavableData received) {
+
+            var data = new SavedDataDto<SavableData> {
+                Data = received,
+                Uid = received.Uid,
+                Updated = DateTime.UtcNow,
+            };
+
+            var serialized = JsonConvert.SerializeObject(data); 
+            var serializedUid = JsonConvert.SerializeObject(data.Uid);
+ 
+            var query = $"UPDATE {defaultTable} SET Data = '{serialized}' WHERE Uid = '{serializedUid}';"; 
+
+            executeVoidQuery(query);
         }
 
         public T find <T> (Guid id){
@@ -56,7 +59,7 @@ namespace WebApplication1.ServerCode.DataAccess {
 
             var query = $"SELECT * FROM {defaultTable} where Uid = '{serializedUid}'";
             
-            return executeQuery<T>(query).FirstOrDefault();
+            return executeSearchQuery<T>(query).FirstOrDefault();
         }
 
         public IEnumerable<T> findAll<T>(){
@@ -64,11 +67,10 @@ namespace WebApplication1.ServerCode.DataAccess {
 
             var query = $"SELECT * FROM {defaultTable} where Type = '{serializedType}'";
 
-            Console.WriteLine(query);
-            return executeQuery<T>(query);
+            return executeSearchQuery<T>(query);
        }
 
-        private IEnumerable<T> executeQuery <T>(string query) {
+        private IEnumerable<T> executeSearchQuery <T>(string query) {
             databaseConnection = new MySqlConnection(connectionString);
             MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
             commandDatabase.CommandTimeout = 60;
@@ -90,7 +92,7 @@ namespace WebApplication1.ServerCode.DataAccess {
                 }
                 else
                 {
-                    Console.WriteLine("No se encontraron datos.");
+                    Console.WriteLine("No data was found");
                 }
             }
             catch (Exception ex)
@@ -110,8 +112,25 @@ namespace WebApplication1.ServerCode.DataAccess {
             if (typeof(T) !=  type) {
                 throw new Exception($"Invalid type {typeof(T)} is not equal to {data.Type}"  );
             }
-            
             return  data.Data;
+        }
+
+        private void executeVoidQuery(string query){ 
+            databaseConnection = new MySqlConnection(connectionString);
+            MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
+            commandDatabase.CommandTimeout = 60;
+            
+            try
+            {
+                databaseConnection.Open();
+                MySqlDataReader myReader = commandDatabase.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            } finally {
+                databaseConnection.Close();
+            }
         }
     }
 

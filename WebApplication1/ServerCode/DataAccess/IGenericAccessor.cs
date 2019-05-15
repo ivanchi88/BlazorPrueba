@@ -5,7 +5,9 @@ namespace WebApplication1.ServerCode.DataAccess {
         
         void connect();
 
-        void insert<T>(SavedDataDto<T> data);
+        void insert(SavableData received);
+
+        void update (SavableData received);
 
         T find <T> (Guid id);
 
