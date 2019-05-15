@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using WebApplication1.Data.Tasks; 
 using WebApplication1.ServerCode.DataAccess;
+using System.Linq;
 
 
 namespace WebApplication1.Components.Tasks {
@@ -18,6 +19,11 @@ namespace WebApplication1.Components.Tasks {
         protected override void OnInit()
         {
             dataAccessor.connect();
+        }
+
+        protected override async Task OnInitAsync()
+        {
+            tasks = dataAccessor.findAll<TaskDto>().ToList();
         }
 
         protected void AddTask () {

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using System;
 using MySql.Data.MySqlClient;
@@ -24,7 +25,7 @@ namespace WebApplication1.ServerCode.DataAccess {
             data.Type = typeof(T);
 
             var serialized = JsonConvert.SerializeObject(data);
-            var globalType = JsonConvert.SerializeObject(data.GetType()); 
+            var globalType = JsonConvert.SerializeObject(typeof(T)); 
             var serializedUid = JsonConvert.SerializeObject(data.Uid);
 
             var query = $"INSERT INTO {defaultTable} (Uid, Type, Data) VALUES ( '{serializedUid}', '{globalType}', '{serialized}');"; 
@@ -36,13 +37,13 @@ namespace WebApplication1.ServerCode.DataAccess {
             {
                 databaseConnection.Open();
                 MySqlDataReader myReader = commandDatabase.ExecuteReader();
-        
-                databaseConnection.Close();
             }
             catch (Exception ex)
             {
                 // Mostrar cualquier error
                 Console.WriteLine(ex.Message);
+            } finally {
+                databaseConnection.Close();
             }
         }
 
@@ -55,69 +56,62 @@ namespace WebApplication1.ServerCode.DataAccess {
 
             var query = $"SELECT * FROM {defaultTable} where Uid = '{serializedUid}'";
             
+            return executeQuery<T>(query).FirstOrDefault();
+        }
+
+        public IEnumerable<T> findAll<T>(){
+            var serializedType = JsonConvert.SerializeObject(typeof(T));
+
+            var query = $"SELECT * FROM {defaultTable} where Type = '{serializedType}'";
+
+            Console.WriteLine(query);
+            return executeQuery<T>(query);
+       }
+
+        private IEnumerable<T> executeQuery <T>(string query) {
             databaseConnection = new MySqlConnection(connectionString);
             MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
             commandDatabase.CommandTimeout = 60;
             MySqlDataReader reader;
 
-            // A consultar !
+            List<T> result = new List<T>();
             try
             {
-                // Abre la base de datos
                 databaseConnection.Open();
-
-                // Ejecuta la consultas
                 reader = commandDatabase.ExecuteReader();
 
-                // Hasta el momento todo bien, es decir datos obtenidos
-
-                // IMPORTANTE :#
-                // Si tu consulta retorna un resultado, usa el siguiente proceso para obtener datos
-                
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        // En nuestra base de datos, el array contiene:  ID 0, Type 1 , Data 3
-                        // Hacer algo con cada fila obtenida
                         string[] row = { reader.GetString(0), reader.GetString(1), reader.GetString(2)};
-
-                        var uid = JsonConvert.DeserializeObject<Guid>(row[0]);
-                        Type type = JsonConvert.DeserializeObject<Type>(row[1]);
-
-                        var data = JsonConvert.DeserializeObject<SavedDataDto<T>>(row[2]);
-
-                        if (typeof(T) !=  data.Type) {
-                            throw new Exception($"Invalid type {typeof(T)} is not equal to {data.Type}"  );
-                        }
-                        
-                        Console.WriteLine(data);
-                        Console.WriteLine(data.Data);
-
-                        var result = data.Data;
-
-                        return result;
+                        result.Add(parseRow<T>(row)); 
                     }
                 }
                 else
                 {
                     Console.WriteLine("No se encontraron datos.");
                 }
-
-                // Cerrar la conexión
-                databaseConnection.Close();
             }
             catch (Exception ex)
             {
-                // Mostrar cualquier excepción
                 Console.WriteLine(ex.Message);
+            } finally {
+                databaseConnection.Close();
+            } 
+            return result;
+       }
+
+        private T parseRow<T> (string [] row) {
+            Type type = JsonConvert.DeserializeObject<Type>(row[1]);
+
+            var data = JsonConvert.DeserializeObject<SavedDataDto<T>>(row[2]);
+
+            if (typeof(T) !=  type) {
+                throw new Exception($"Invalid type {typeof(T)} is not equal to {data.Type}"  );
             }
-
-            return default(T);
-        }
-
-        public IEnumerable<Guid> findAll(Type type){
-            return null;
+            
+            return  data.Data;
         }
     }
 

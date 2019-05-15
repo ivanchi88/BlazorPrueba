@@ -9,6 +9,6 @@ namespace WebApplication1.ServerCode.DataAccess {
 
         T find <T> (Guid id);
 
-        IEnumerable<Guid> findAll(Type type);
+        IEnumerable<T> findAll<T>();
     }
 }
