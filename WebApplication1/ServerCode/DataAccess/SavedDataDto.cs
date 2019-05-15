@@ -7,8 +7,8 @@ namespace WebApplication1.ServerCode.DataAccess {
 
         public  string SerializedObject {get; set;}
 
-        public Guid uid {get; set;}
+        public Guid Uid {get; set;}
 
-        public T data {get; set;}
+        public T Data {get; set;}
     }
 }

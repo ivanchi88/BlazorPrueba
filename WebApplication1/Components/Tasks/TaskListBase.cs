@@ -35,7 +35,8 @@ namespace WebApplication1.Components.Tasks {
             };
             tasks.Add(task);
             dataAccessor.insert(new SavedDataDto<TaskDto> {
-                data = task
+                Data = task,
+                Uid = task.id
             });
             currentTask = "";
         }
