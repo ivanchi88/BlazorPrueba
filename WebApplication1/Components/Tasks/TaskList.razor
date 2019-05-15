@@ -50,6 +50,7 @@
                             <span  > @task.Text </span>
                             <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Active))"> Not done yet </button>
                             <button onclick="@(()=> ChangeTaskStatus(task, TaskStatusEnum.Removed))">Remove</button>
+                            <NavLink href=@{"/tasklist/" + task.Uid}>Detail </NavLink>
                         </li>  
                         i++;
                     }
